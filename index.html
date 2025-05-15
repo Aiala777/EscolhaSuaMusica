@@ -1,0 +1,131 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedir Música</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Georgia', serif;
+      background: url('https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      font-size: 8vw;
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 4px #000;
+    }
+    form {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 1.2rem;
+      background-color: #a0522d;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #8b4513;
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 10vw;
+      }
+      form {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Faça seu Pedido Musical</h1>
+  <form id="musicForm">
+    <label for="nome">Qual seu nome?</label>
+    <input type="text" id="nome" required>
+
+    <label for="genero">Qual seu gênero musical favorito?</label>
+    <select id="genero" required>
+      <option value="">Selecione...</option>
+      <option>Pop</option>
+      <option>Sertanejo</option>
+      <option>Rock</option>
+      <option>Samba</option>
+      <option>Outro</option>
+    </select>
+
+    <label for="musica">Qual música você quer pedir?</label>
+    <input type="text" id="musica" required>
+
+    <button type="submit">Enviar Pedido</button>
+  </form>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBCKDCCDxo1fE8w6Kfr0IOpiZMplkZL6F4",
+      authDomain: "cantor-bd8d6.firebaseapp.com",
+      projectId: "cantor-bd8d6",
+      storageBucket: "cantor-bd8d6.firebasestorage.app",
+      messagingSenderId: "95428328833",
+      appId: "1:95428328833:web:ac027fa7b04ae5a45a7c80",
+      measurementId: "G-LC8N4QESCW"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const form = document.getElementById('musicForm');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const genero = document.getElementById('genero').value;
+      const musica = document.getElementById('musica').value;
+
+      await db.collection('pedidos').add({
+        nome,
+        genero,
+        musica,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      alert('Pedido enviado com sucesso!');
+      form.reset();
+    });
+  </script>
+</body>
+</html>
+
