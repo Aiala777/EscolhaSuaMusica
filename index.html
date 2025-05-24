@@ -71,11 +71,52 @@
       background-color: #8b4513;
     }
 
+    .pix-area {
+      text-align: center;
+      margin: 40px auto 20px;
+      max-width: 500px;
+    }
+
+    .pix-area img {
+      width: 200px;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .pix-label {
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #a0522d;
+    }
+
+    .pix-area input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    .pix-button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #a0522d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .pix-button:hover {
+      background-color: #8b4513;
+    }
+
     footer {
       text-align: center;
       margin-top: 40px;
       font-size: 0.9rem;
-      color: #000000;
+      color: #a0522d;
       padding: 10px;
       font-family: 'Arial', sans-serif;
     }
@@ -120,6 +161,14 @@
     <button type="submit">Enviar Pedido</button>
   </form>
 
+  <!-- QR Code Pix + Botão copiar -->
+  <div class="pix-area">
+    <img src="https://i.imgur.com/uUWlPzI.png" alt="QR Code Pix">
+    <p class="pix-label">Contribua com nosso trabalho</p>
+    <input type="text" id="pixCodigo" value="00020126580014BR.GOV.BCB.PIX0136seuemail@pix.com.br5204000053039865802BR5920Seu Nome6304ABCD" readonly>
+    <button class="pix-button" onclick="copiarPix()">Copiar código Pix</button>
+  </div>
+
   <footer>
     Desenvolvido por Arthur Aiala
   </footer>
@@ -157,6 +206,15 @@
       alert('Pedido enviado com sucesso!');
       form.reset();
     });
+
+    function copiarPix() {
+      const campoPix = document.getElementById("pixCodigo");
+      campoPix.select();
+      campoPix.setSelectionRange(0, 99999); // Para mobile
+      navigator.clipboard.writeText(campoPix.value).then(() => {
+        alert("Código Pix copiado!");
+      });
+    }
   </script>
 </body>
 </html>
